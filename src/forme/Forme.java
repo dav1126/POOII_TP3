@@ -55,7 +55,7 @@ public abstract class Forme implements Comparable<Forme>, Deplacable
 	 */
 	public Point getCentre()
 	{
-		
+		return centre;
 	}
 
 	/**
@@ -65,7 +65,7 @@ public abstract class Forme implements Comparable<Forme>, Deplacable
 	 */
 	public int getX()
 	{
-		
+		return (int) centre.getX();
 	}
 
 	/**
@@ -75,7 +75,7 @@ public abstract class Forme implements Comparable<Forme>, Deplacable
 	 */
 	public int getY()
 	{
-		
+		return (int) centre.getY();
 	}
 
 	/**
@@ -88,7 +88,14 @@ public abstract class Forme implements Comparable<Forme>, Deplacable
 	 */
 	public boolean setCentre(int pX, int pY)
 	{
+		boolean ok = validerX(pX) && validerY(pY);
 		
+		if(ok)
+		{
+			centre = new Point(pX, pY);
+		}
+		
+		return ok;
 	}
 
 	/**
@@ -100,7 +107,14 @@ public abstract class Forme implements Comparable<Forme>, Deplacable
 	 */
 	public boolean setCentre(Point pCentre)
 	{
+		boolean ok = validerPoint(pCentre);
 		
+		if (ok)
+		{
+			centre = pCentre;
+		}
+		
+		return ok;
 	}
 
 	/**
@@ -112,7 +126,7 @@ public abstract class Forme implements Comparable<Forme>, Deplacable
 	 */
 	public static boolean validerX(int pX)
 	{
-		
+		return (pX >=0);
 	}
 
 	/**
@@ -124,7 +138,7 @@ public abstract class Forme implements Comparable<Forme>, Deplacable
 	 */
 	public static boolean validerY(int pY)
 	{
-		
+		return (pY >= 0);
 	}
 
 	/**
@@ -137,7 +151,7 @@ public abstract class Forme implements Comparable<Forme>, Deplacable
 	 */
 	public static boolean validerPoint(Point pCentre)
 	{
-		
+		return (pCentre.getX() >= 0 && pCentre.getY() >= 0);
 	}
 
 	@Override

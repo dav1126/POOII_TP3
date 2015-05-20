@@ -12,11 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -54,7 +50,14 @@ public class GestionFormes extends Application
 	 */
 	public void start(Stage pStage)
 	{
+		stage = pStage;
+		vue = new Interface();
+		stage.setTitle("Formes géométriques: Un exemple d'héritage et de polymorphisme");
+		stage.setScene(vue.scene);
 		
+		ajouterEcouteurs();
+		
+		stage.show();
 	}
 
 	/**
@@ -63,7 +66,7 @@ public class GestionFormes extends Application
 	 */
 	private void ajouterEcouteurs()
 	{
-		
+		//EventHandler<ActionEvent>
 		
 		
 	}
