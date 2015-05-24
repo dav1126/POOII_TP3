@@ -1,6 +1,7 @@
 ﻿package forme;
 
 import java.awt.Point;
+
 import exception.ConstructeurException;
 
 public class Cercle extends Forme
@@ -42,7 +43,14 @@ public class Cercle extends Forme
 	 */
 	public Cercle(int pX, int pY, double pRayon) throws ConstructeurException
 	{
+		super(pX, pY);
 		
+		boolean ok = setRayon(pRayon);
+		
+		if(!ok)
+		{
+			throw new ConstructeurException();
+		}
 	}
 
 	/**
@@ -52,7 +60,7 @@ public class Cercle extends Forme
 	 */
 	public double getRayon()
 	{
-		
+		return rayon;
 	}
 
 	/**
@@ -64,7 +72,14 @@ public class Cercle extends Forme
 	 */
 	public boolean setRayon(double pRayon)
 	{
+		boolean ok = validerRayon(pRayon);
 		
+		if (ok)
+		{
+			rayon = pRayon;
+		}
+		
+		return ok;
 	}
 
 	/**
@@ -76,19 +91,19 @@ public class Cercle extends Forme
 	 */
 	public static boolean validerRayon(double pRayon)
 	{
-		
+		return pRayon >= 0;
 	}
 
 	@Override
 	public double aire()
 	{
-		
+		return Math.PI*rayon*rayon;
 	}
 
 	@Override
 	public double perimetre()
 	{
-		
+		return Math.PI*rayon*2;
 	}
 
 	@Override
@@ -96,23 +111,33 @@ public class Cercle extends Forme
 	{
 		// Selon le net il y a 2 réponses possibles soit 0 ou infini, ici on
 		// opte pour 0.
-		
+		return NBR_COTE_CERCLE;
 	}
 
 	
 	@Override
 	public int compareTo(Forme pCercle)
 	{
+		Cercle cercle = (Cercle) pCercle; 
+		int result=0;
 		
+		if(this.getRayon() > cercle.getRayon())
+		{
+			result = 1;
+		}
 		
+		else if (this.aire() < pCercle.aire())
+		{
+			result = -1;
+		}
+		
+		return result;
 	}
-
-	
 
 	@Override
 	public String toString()
 	{
-		
-
+		return this+"a un rayon de " + this.getRayon() + ",un aire de " +this.aire() 
+				+ "et un périmètre de " +this.perimetre() + ".";
 	}
 }

@@ -17,7 +17,7 @@ public class Rectangle extends Parallelogramme
 	public Rectangle(Point pCentre, double pBase, double pHauteur)
 			throws ConstructeurException
 	{
-		
+		super((int)pCentre.getX(), (int)pCentre.getY(), pBase, pHauteur);
 	}
 
 	/**
@@ -33,6 +33,6 @@ public class Rectangle extends Parallelogramme
 	public Rectangle(int pX, int pY, double pBase, double pHauteur)
 			throws ConstructeurException
 	{
-		
+		super(pX, pY, pBase, pHauteur);
 	}
 }

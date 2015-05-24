@@ -157,7 +157,17 @@ public abstract class Forme implements Comparable<Forme>, Deplacable
 	@Override
 	public boolean deplacer(int pDeltaX, int pDeltaY)
 	{
+		int x = (int)centre.getX()+pDeltaX;
+		int y = (int)centre.getY()+pDeltaY;
 		
+		boolean ok = (x>=0 && y>=0);
+		
+		if (ok)
+		{
+			centre.setLocation(centre.getX()+pDeltaX, centre.getY()+pDeltaY);
+		}
+		
+		return ok;
 	}
 
 	/**
@@ -180,4 +190,5 @@ public abstract class Forme implements Comparable<Forme>, Deplacable
 	 * @return int, le nombre de coté
 	 */
 	public abstract int getNbrCote();
+	
 }

@@ -39,7 +39,7 @@ public class Carre extends Rectangle
 	public Carre(int pX, int pY, double pCote)
 			throws ConstructeurException
 	{
-		
+		super(pX, pY, pCote, pCote);
 	}
 
 	/**
@@ -50,8 +50,15 @@ public class Carre extends Rectangle
 	 * @return boolean, vrai si la valeur a été modifiée
 	 */
 	public boolean setBase(double pBase)
-	{
+	{				
+		boolean ok = this.getHauteur() == pBase;
 		
+		if (ok)
+		{
+			super.setBase(pBase); //À quoi sert cette méthode? Vérifier avec quelqu'un!!!!!!!!!!!
+		}
+		
+		return ok;
 	}
 
 	/**
@@ -63,7 +70,14 @@ public class Carre extends Rectangle
 	 */
 	public boolean setHauteur(double pHauteur)
 	{
+		boolean ok = this.getBase() == pHauteur;
 		
+		if (ok)
+		{
+			super.setHauteur(pHauteur); //À quoi sert cette méthode? Vérifier avec quelqu'un!!!!!!!!!!!
+		}
+		
+		return ok;
 	}
 
 	/**
@@ -77,7 +91,15 @@ public class Carre extends Rectangle
 	 */
 	public boolean setCote(double pCote)
 	{
+		boolean ok = validerCote(pCote) && (this.getBase() == this.getHauteur());
 		
+		if (ok) //À quoi sert cette méthode? Vérifier avec quelqu'un!!!!!!!!!!!
+		{
+			setBase(pCote);
+			setHauteur(pCote);
+		}
+		
+		return ok;
 	}
 
 	/**
@@ -89,6 +111,6 @@ public class Carre extends Rectangle
 	 */
 	public static boolean validerCote(double pCote)
 	{
-		
+		return pCote > 0;
 	}
 }

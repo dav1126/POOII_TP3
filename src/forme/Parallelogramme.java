@@ -32,7 +32,7 @@ public abstract class Parallelogramme extends Forme
 	public Parallelogramme(Point pCentre, double pBase, double pHauteur)
 			throws ConstructeurException
 	{
-		
+		this((int) pCentre.getX(),(int) pCentre.getY(), pBase, pHauteur);
 	}
 
 	/**
@@ -48,7 +48,13 @@ public abstract class Parallelogramme extends Forme
 	public Parallelogramme(int pX, int pY, double pBase, double pHauteur)
 			throws ConstructeurException
 	{
+		super(pX, pY);
+		boolean ok = setBase(pBase) && setHauteur(pHauteur);
 		
+		if(!ok)
+		{
+			throw new ConstructeurException();
+		}	
 	}
 
 	/**
@@ -58,7 +64,7 @@ public abstract class Parallelogramme extends Forme
 	 */
 	public double getBase()
 	{
-		
+		return base;
 	}
 
 	/**
@@ -70,8 +76,14 @@ public abstract class Parallelogramme extends Forme
 	 */
 	public boolean setBase(double pBase)
 	{
+		boolean ok = validerBase(pBase);
 		
-
+		if (ok)
+		{
+			base=pBase;
+		}
+		
+		return ok;
 	}
 
 	/**
@@ -81,7 +93,7 @@ public abstract class Parallelogramme extends Forme
 	 */
 	public double getHauteur()
 	{
-		
+		return hauteur;
 	}
 
 	/**
@@ -93,7 +105,14 @@ public abstract class Parallelogramme extends Forme
 	 */
 	public boolean setHauteur(double pHauteur)
 	{
+		boolean ok = validerHauteur(pHauteur);
 		
+		if (ok)
+		{
+			hauteur = pHauteur;
+		}
+		
+		return ok;
 	}
 
 	/**
@@ -105,7 +124,7 @@ public abstract class Parallelogramme extends Forme
 	 */
 	public static boolean validerBase(double pBase)
 	{
-		
+		return pBase >= 0;
 	}
 
 	/**
@@ -118,31 +137,45 @@ public abstract class Parallelogramme extends Forme
 	 */
 	public static boolean validerHauteur(double pHauteur)
 	{
-		
+		return pHauteur >=0;
 	}
 
 	@Override
 	public int compareTo(Forme pParrallelogramme)
 	{
+		Parallelogramme parrallelogramme = (Parallelogramme) pParrallelogramme;
 		
+		int result = 0;
+		
+		if (this.aire() > parrallelogramme.aire())
+		{
+			result = 1;
+		}
+		
+		else if (this.aire() < parrallelogramme.aire())
+		{
+			result = -1;
+		}
+		
+		return result;
 	}
 
 	@Override
 	public double perimetre()
 	{
-		
+		return (base+hauteur)*2;
 	}
 
 	@Override
 	public double aire()
 	{
-		
+		return base*hauteur;
 	}
 
 	@Override
 	public int getNbrCote()
 	{
-		
+		return NBR_COTE_PARALLELOGRAMME;
 	}
 
 	
@@ -150,7 +183,8 @@ public abstract class Parallelogramme extends Forme
 	@Override
 	public String toString()
 	{
-		
+		return this+"a une base de " + this.getBase() + ",une hauteur de " +this.getHauteur() +",un aire de " +this.aire() 
+				+ "et un périmètre de " +this.perimetre() + ".";
 	}
 
 }
