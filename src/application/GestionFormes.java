@@ -7,12 +7,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -56,6 +59,7 @@ public class GestionFormes extends Application
 		stage.setScene(vue.scene);
 		
 		ajouterEcouteurs();
+		//Recuperer le fichier de forme?!?!??!?!?!?!??!?!?!?!??!?!?!??!?!?!?
 		
 		stage.show();
 	}
@@ -66,9 +70,15 @@ public class GestionFormes extends Application
 	 */
 	private void ajouterEcouteurs()
 	{
-		//EventHandler<ActionEvent>
+		vue.creerCercle.setOnAction(new EcouteurBoutons());
+		vue.creerCarre.setOnAction(new EcouteurBoutons());
+		vue.creerLosange.setOnAction(new EcouteurBoutons());
+		vue.creerRectangle.setOnAction(new EcouteurBoutons());
 		
-		
+		vue.menuItemEnregistrer.setOnAction(new EcouteurMenu());
+		vue.menuItemEnregistrerSous.setOnAction(new EcouteurMenu());
+		vue.menuItemFermer.setOnAction(new EcouteurMenu());
+		vue.menuItemQuitter.setOnAction(new EcouteurMenu());
 	}
 
 	/**
@@ -81,11 +91,31 @@ public class GestionFormes extends Application
 		 * 
 		 * @param event l'événement qui s'est produit
 		 */
-		
+		@Override
+		public void handle(ActionEvent event)
+		{
+			if (event.getSource() == vue.creerCercle)
+			{
+				gestionCreerCercle();
+			}
+			
+			if (event.getSource() == vue.creerCarre)
+			{
+				
+			}
+			
+			if (event.getSource() == vue.creerLosange)
+			{
+				
+			}
+				
+			if (event.getSource() == vue.creerRectangle)
+			{
+				
+			}
+		}
 	}
-	
-	
-	
+
 	
 	/**
 	 * Permet de faire la gestion de la création d'un cercle
@@ -102,16 +132,14 @@ public class GestionFormes extends Application
 
 		if (unCercle != null)
 		{
-			ajouterForme(unCercle);
-
-			
+			ajouterForme(unCercle);	
 		}
 		else
 		{
-			...
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Erreur");
 			alert.setContentText("Aucun cercle n'a été ajouté à la liste");
 			alert.showAndWait();
-
 		}
 	}
 
@@ -147,12 +175,23 @@ public class GestionFormes extends Application
 		while (!Cercle.validerX(x));
 		
 		// Saisie de y
+		do
+		{
+			y = saisirObjetEntier("Donnez l'ordonné du centre du cercle ?");
+		}
+		while (!Cercle.validerY(y));
 
 		// Saisie de r
+		do
+		{
+			r = saisirObjetEntier("Donnez le rayon du cercle ?");
+		}
+		while (!Cercle.validerRayon(r));
 		
 		// Création de l'objet
 		
-
+		unCercle = new Cercle(x,y,r);
+		
 		return unCercle;
 	}
 	
@@ -168,8 +207,16 @@ public class GestionFormes extends Application
 	
 	public static Integer saisirObjetEntier(String pQuestion)
 	{
+		Integer objetEntier = -1;
 		
-
+		
+		TextInputDialog saisie = new TextInputDialog();
+		saisie.setTitle("Saisie d'un entier");
+		saisie.setContentText(pQuestion);
+		
+		Optional <String> result = saisie.showAndWait();
+		objetEntier = Integer.parseInt(result.get());
+		
 		return objetEntier;
 	}
 	
@@ -241,8 +288,7 @@ public class GestionFormes extends Application
 		// Backup de l'index
 		int index = vue.listeObjets.getSelectionModel().getSelectedIndex();
 
-		ObservableList<String> formes = FXCollections
-				.observableArrayList();
+		ObservableList<String> formes = FXCollections.observableArrayList();
 
 		for (Forme f : vecFormes)
 		{
@@ -272,12 +318,17 @@ public class GestionFormes extends Application
 		{
 			if (!ecrireTexte(vecFormes, fileCourant))
 			{
-				
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Erreur");
+				alert.setContentText("Erreur d'écriture dans le fichier");
+				alert.showAndWait();
 			}
 			else
 			{
-				
-
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Sauvegarde");
+				alert.setContentText("Sauvegarde effectuée avec succès.");
+				alert.showAndWait();
 			}
 		}
 		else
@@ -308,16 +359,21 @@ public class GestionFormes extends Application
 			fileCourant = fichier;
 			if (!ecrireTexte(vecFormes, fileCourant))
 			{
-				
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Erreur");
+				alert.setContentText("Erreur d'écriture dans le fichier");
+				alert.showAndWait();
 			}
 			else
 			{
-				
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Sauvegarde");
+				alert.setContentText("Sauvegarde effectuée avec succès.");
+				alert.showAndWait();
 			}
 		}
 	}
 
-	
 	public boolean ecrireTexte(ArrayList<Forme> liste, File fichier)
 	{
 		boolean ecritureOk = true;
@@ -346,18 +402,21 @@ public class GestionFormes extends Application
 					else
 						if (formeTemp instanceof Carre)
 						{
-							
+							forme = "Carre" + ";" + formeTemp.getX() + ";" +
+									formeTemp.getY()  + ";" + ((Carre) formeTemp).getBase()+((Carre) formeTemp).getHauteur();
 						}
 						else
 							if (formeTemp instanceof Rectangle)
 							{
-								
+								forme = "Rectangle" + ";" + formeTemp.getX() + ";" +
+										formeTemp.getY()  + ";" + ((Rectangle) formeTemp).getBase()+((Rectangle) formeTemp).getHauteur();
 							}
 
 							else
 								if (formeTemp instanceof Losange)
 								{
-									
+									forme = "Losange" + ";" + formeTemp.getX() + ";" +
+											formeTemp.getY()  + ";" + ((Losange) formeTemp).getBase()+((Losange) formeTemp).getHauteur();
 								}
 
 					bufferForme.write(forme, 0, forme.length());
@@ -397,8 +456,21 @@ public class GestionFormes extends Application
 	{
 		if (!vecFormes.isEmpty())
 		{
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Sauvegarde");
+			alert.setContentText("Voulez-vous sauvegarder avant de fermer?");
 			
+			ButtonType buttonTypeSave = new ButtonType("Sauvegarder");
+			ButtonType buttonTypeCancel = new ButtonType("Fermer", ButtonData.CANCEL_CLOSE);
 
+			alert.getButtonTypes().setAll(buttonTypeSave, buttonTypeCancel);
+			
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			if (result.get() == buttonTypeSave)
+			{
+				gestionEnregistrerSous();
+			} 
 		}
 
 		vecFormes.clear();
@@ -410,8 +482,7 @@ public class GestionFormes extends Application
 	 */
 	public void gestionQuitter()
 	{
-		
-
+		System.exit(0);
 	}
 
 	public static void main(String[] args)

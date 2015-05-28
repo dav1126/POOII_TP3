@@ -121,12 +121,13 @@ public class Cercle extends Forme
 		Cercle cercle = (Cercle) pCercle; 
 		int result=0;
 		
-		if(this.getRayon() > cercle.getRayon())
+		if(this.aire() > cercle.aire())
+			
 		{
 			result = 1;
 		}
 		
-		else if (this.aire() < pCercle.aire())
+		else if (this.aire() < cercle.aire())
 		{
 			result = -1;
 		}
@@ -137,7 +138,7 @@ public class Cercle extends Forme
 	@Override
 	public String toString()
 	{
-		return this+"a un rayon de " + this.getRayon() + ",un aire de " +this.aire() 
-				+ "et un périmètre de " +this.perimetre() + ".";
+		return this.getClass().getName() +"x: " +this.getX() 
+				+ " y: " +this.getY() + " Rayon: " +getRayon()+".";
 	}
 }

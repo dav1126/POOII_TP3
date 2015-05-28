@@ -45,13 +45,14 @@ public class Losange extends Parallelogramme
 	public double aire()
 	{
 		// Pour un losange aire = ((D * d) / 2)
+		return ((this.getBase()*this.getHauteur())/2);
 		
 	}
 
 	@Override
 	public String toString()
 	{
-		
-
+		return this.getClass().getName() +"x: " +this.getX() 
+				+ " y: " +this.getY() + " petite diagonale: " +getBase()+ " grande diagonale: " +getHauteur() +".";
 	}
 }

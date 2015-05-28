@@ -50,15 +50,8 @@ public class Carre extends Rectangle
 	 * @return boolean, vrai si la valeur a été modifiée
 	 */
 	public boolean setBase(double pBase)
-	{				
-		boolean ok = this.getHauteur() == pBase;
-		
-		if (ok)
-		{
-			super.setBase(pBase); //À quoi sert cette méthode? Vérifier avec quelqu'un!!!!!!!!!!!
-		}
-		
-		return ok;
+	{					
+			return super.setBase(pBase); 
 	}
 
 	/**
@@ -70,14 +63,7 @@ public class Carre extends Rectangle
 	 */
 	public boolean setHauteur(double pHauteur)
 	{
-		boolean ok = this.getBase() == pHauteur;
-		
-		if (ok)
-		{
-			super.setHauteur(pHauteur); //À quoi sert cette méthode? Vérifier avec quelqu'un!!!!!!!!!!!
-		}
-		
-		return ok;
+			return super.setHauteur(pHauteur); 
 	}
 
 	/**
@@ -93,7 +79,7 @@ public class Carre extends Rectangle
 	{
 		boolean ok = validerCote(pCote) && (this.getBase() == this.getHauteur());
 		
-		if (ok) //À quoi sert cette méthode? Vérifier avec quelqu'un!!!!!!!!!!!
+		if (ok) 
 		{
 			setBase(pCote);
 			setHauteur(pCote);

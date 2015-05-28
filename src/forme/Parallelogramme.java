@@ -183,8 +183,8 @@ public abstract class Parallelogramme extends Forme
 	@Override
 	public String toString()
 	{
-		return this+"a une base de " + this.getBase() + ",une hauteur de " +this.getHauteur() +",un aire de " +this.aire() 
-				+ "et un périmètre de " +this.perimetre() + ".";
+		return this.getClass().getName() +"x: " +this.getX() 
+				+ " y: " +this.getY() + " base: " +getBase()+ " hauteur: " +getHauteur() +".";
 	}
 
 }

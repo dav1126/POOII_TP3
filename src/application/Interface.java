@@ -30,11 +30,10 @@ public class Interface
 	protected Button creerCercle = null;
 	protected Button creerCarre = null;
 	protected Button creerLosange = null;
-	protected Button creerParallelogramme = null;
 	protected Button creerRectangle = null;
 	
 	//Éléments de la zone centrale (affichage des formes)
-	protected ListView <String> zoneCentre = null;
+	protected ListView <String> listeObjets = null;
 	
 	public Interface()
 	{
@@ -45,7 +44,7 @@ public class Interface
 		root = new BorderPane();		
 		root.setTop(zoneHaut);
 		root.setRight(zoneDroite);
-		root.setCenter(zoneCentre);
+		root.setCenter(listeObjets);
 		
 		scene = new Scene (root, 800, 450);
 		
@@ -87,10 +86,6 @@ public class Interface
 		creerLosange.setPrefWidth(largeurBouton);
 		creerLosange.setPrefHeight(hauteurBouton);
 		
-		creerParallelogramme = new Button("Créer un parallélogramme");
-		creerParallelogramme.setPrefWidth(largeurBouton);
-		creerParallelogramme.setPrefHeight(hauteurBouton);
-		
 		creerRectangle = new Button("Créer un rectangle");
 		creerRectangle.setPrefWidth(largeurBouton);
 		creerRectangle.setPrefHeight(hauteurBouton);
@@ -98,12 +93,12 @@ public class Interface
 		zoneDroite = new VBox();
 		zoneDroite.setStyle("-fx-background-color: #E8E8E8;");
 		
-		zoneDroite.getChildren().addAll(creerCercle, creerCarre, creerLosange, creerParallelogramme, creerRectangle);
+		zoneDroite.getChildren().addAll(creerCercle, creerCarre, creerLosange, creerRectangle);
 	}
 	
 	private void creerZoneCentre()
 	{
-		zoneCentre = new ListView<String>();
+		listeObjets = new ListView<String>();
 		//ObservableList<String>valeurs = FXCollections.observableArrayList();
 		//zoneCentre.setItems(valeurs);
 	}
