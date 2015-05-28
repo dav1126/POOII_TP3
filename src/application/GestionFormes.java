@@ -1,12 +1,13 @@
 package application;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -58,8 +59,9 @@ public class GestionFormes extends Application
 		stage.setTitle("Formes géométriques: Un exemple d'héritage et de polymorphisme");
 		stage.setScene(vue.scene);
 		
+		vecFormes = new ArrayList<Forme>();
+
 		ajouterEcouteurs();
-		//Recuperer le fichier de forme?!?!??!?!?!?!??!?!?!?!??!?!?!??!?!?!?
 		
 		stage.show();
 	}
@@ -79,6 +81,7 @@ public class GestionFormes extends Application
 		vue.menuItemEnregistrerSous.setOnAction(new EcouteurMenu());
 		vue.menuItemFermer.setOnAction(new EcouteurMenu());
 		vue.menuItemQuitter.setOnAction(new EcouteurMenu());
+		vue.menuItemOuvrir.setOnAction(new EcouteurMenu());
 	}
 
 	/**
@@ -101,18 +104,19 @@ public class GestionFormes extends Application
 			
 			if (event.getSource() == vue.creerCarre)
 			{
-				
+				gestionCreerCarre();
 			}
 			
 			if (event.getSource() == vue.creerLosange)
 			{
-				
+				gestionCreerLosange();
 			}
 				
 			if (event.getSource() == vue.creerRectangle)
 			{
-				
+				gestionCreerRectangle();
 			}
+			mettreAJourListe();
 		}
 	}
 
@@ -129,7 +133,7 @@ public class GestionFormes extends Application
 	public void gestionCreerCercle()
 	{
 		Forme unCercle = saisirEtCreerCercle();
-
+		
 		if (unCercle != null)
 		{
 			ajouterForme(unCercle);	
@@ -169,7 +173,7 @@ public class GestionFormes extends Application
 		// Saisie de x
 		do
 		{
-			x = saisirObjetEntier("Donnez l'abscisse du centre du cercle ?");
+			x = saisirObjetEntier("Donnez l'abscisse du centre du cercle");
 			
 		}
 		while (!Cercle.validerX(x));
@@ -177,14 +181,14 @@ public class GestionFormes extends Application
 		// Saisie de y
 		do
 		{
-			y = saisirObjetEntier("Donnez l'ordonné du centre du cercle ?");
+			y = saisirObjetEntier("Donnez l'ordonné du centre du cercle");
 		}
 		while (!Cercle.validerY(y));
 
 		// Saisie de r
 		do
 		{
-			r = saisirObjetEntier("Donnez le rayon du cercle ?");
+			r = saisirObjetEntier("Donnez le rayon du cercle");
 		}
 		while (!Cercle.validerRayon(r));
 		
@@ -193,6 +197,191 @@ public class GestionFormes extends Application
 		unCercle = new Cercle(x,y,r);
 		
 		return unCercle;
+	}
+	
+	public void gestionCreerCarre()
+	{
+		Forme unCarre = saisirEtCreerCarre();
+		
+		if (unCarre != null)
+		{
+			ajouterForme(unCarre);	
+		}
+		else
+		{
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Erreur");
+			alert.setContentText("Aucun carré n'a été ajouté à la liste");
+			alert.showAndWait();
+		}
+	}
+	
+	public Carre saisirEtCreerCarre()
+	{
+		// Variable de retour
+		Carre carre = null;
+
+		// Info sur le carre (l'abscisse, l'ordonné  et le cote du carré
+		
+		int x,y;
+		double c;
+
+		
+		// Saisie de x
+		do
+		{
+			x = saisirObjetEntier("Donnez l'abscisse du centre du carre");
+			
+		}
+		while (!Carre.validerX(x));
+		
+		// Saisie de y
+		do
+		{
+			y = saisirObjetEntier("Donnez l'ordonné du centre du carre");
+		}
+		while (!Carre.validerY(y));
+
+		// Saisie de r
+		do
+		{
+			c = saisirObjetEntier("Donnez le côté du carre");
+		}
+		while (!Carre.validerCote(c));
+		
+		// Création de l'objet
+		
+		carre = new Carre(x,y,c);
+		
+		return carre;
+	}
+	
+	public void gestionCreerRectangle()
+	{
+		Forme unRectangle = saisirEtCreerRectangle();
+		
+		if (unRectangle != null)
+		{
+			ajouterForme(unRectangle);	
+		}
+		else
+		{
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Erreur");
+			alert.setContentText("Aucun rectangle n'a été ajouté à la liste");
+			alert.showAndWait();
+		}
+	}
+	
+	public Rectangle saisirEtCreerRectangle()
+	{
+		// Variable de retour
+		Rectangle rectangle = null;
+
+		// Info sur le rectangle (l'abscisse, l'ordonné  et le cote du carré
+		
+		int x,y;
+		double b,h;
+
+		
+		// Saisie de x
+		do
+		{
+			x = saisirObjetEntier("Donnez l'abscisse du centre du rectangle");
+			
+		}
+		while (!Rectangle.validerX(x));
+		
+		// Saisie de y
+		do
+		{
+			y = saisirObjetEntier("Donnez l'ordonné du centre du rectangle");
+		}
+		while (!Rectangle.validerY(y));
+
+		// Saisie de b
+		do
+		{
+			b = saisirObjetEntier("Donnez la base du rectangle");
+		}
+		while (!Rectangle.validerBase(b));
+		
+		// Saisie de b
+		do
+		{
+			h = saisirObjetEntier("Donnez la hauteur du rectangle");
+		}
+		while (!Rectangle.validerHauteur(h));
+		
+		// Création de l'objet
+		
+		rectangle = new Rectangle(x,y,b,h);
+		
+		return rectangle;
+	}
+	
+	public void gestionCreerLosange()
+	{
+		Forme unLosange = saisirEtCreerLosange();
+		
+		if (unLosange != null)
+		{
+			ajouterForme(unLosange);	
+		}
+		else
+		{
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Erreur");
+			alert.setContentText("Aucun losange n'a été ajouté à la liste");
+			alert.showAndWait();
+		}
+	}
+	
+	public Losange saisirEtCreerLosange()
+	{
+		// Variable de retour
+		Losange losange = null;
+
+		// Info sur le losange (l'abscisse, l'ordonné  et le cote du carré
+		
+		int x,y;
+		double b,h;
+
+		
+		// Saisie de x
+		do
+		{
+			x = saisirObjetEntier("Donnez l'abscisse du centre du losange");
+			
+		}
+		while (!Losange.validerX(x));
+		
+		// Saisie de y
+		do
+		{
+			y = saisirObjetEntier("Donnez l'ordonné du centre du losange");
+		}
+		while (!Losange.validerY(y));
+
+		// Saisie de b
+		do
+		{
+			b = saisirObjetEntier("Donnez la petite diagonale du losange");
+		}
+		while (!Losange.validerBase(b));
+		
+		// Saisie de b
+		do
+		{
+			h = saisirObjetEntier("Donnez la grande diagonale du losange");
+		}
+		while (!Losange.validerHauteur(h));
+		
+		// Création de l'objet
+		
+		losange = new Losange(x,y,b,h);
+		
+		return losange;
 	}
 	
 	/**
@@ -228,6 +417,7 @@ public class GestionFormes extends Application
 	 */
 	public void ajouterForme(Forme pForme)
 	{
+		
 		this.vecFormes.add(pForme);
 	}
 	
@@ -246,24 +436,30 @@ public class GestionFormes extends Application
 			Object optionMenu = event.getSource();
 			ObservableList<MenuItem> options = vue.menuFichier.getItems();
 
-			// Enregistrer la liste des formes dans le fichier courant
+			// Ouvrir un fichier de formes
 			if (optionMenu == options.get(0))
+			{
+				gestionOuvrir();
+			}
+			
+			// Enregistrer la liste des formes dans le fichier courant
+			else if (optionMenu == options.get(1))
 			{
 				gestionEnregistrer();
 			}
 			// Enregistrer la liste des formes dans un nouveau fichier
-			else if (optionMenu == options.get(1))
+			else if (optionMenu == options.get(2))
 			{
 				gestionEnregistrerSous();
 			}
 		
 			// Fermer le fichier courant
-			else if (optionMenu == options.get(2))
+			else if (optionMenu == options.get(3))
 			{
 				gestionFermer();
 			}
 			// Quitter l'application
-			else if (optionMenu == options.get(3))
+			else if (optionMenu == options.get(4))
 			{
 				gestionQuitter();
 			}
@@ -300,6 +496,98 @@ public class GestionFormes extends Application
 		vue.listeObjets.getSelectionModel().select(index);
 	}
 
+	public void gestionOuvrir()
+	{	
+		if (!vecFormes.isEmpty())
+		{
+			Alert dialog = new Alert(AlertType.CONFIRMATION);
+			dialog.setTitle("Gestion Formes");
+			dialog.setHeaderText(null);
+			dialog.setContentText("Voulez-vous sauvegarder les données courantes avant d'ouvrir un nouveau fichier?");
+			Optional<ButtonType> reponse = dialog.showAndWait();
+			if (reponse.get() == ButtonType.OK)
+			{
+				gestionEnregistrerSous();
+			}
+		}
+
+		FileChooser choixFichier = new FileChooser();
+		choixFichier.setInitialDirectory(new File(System
+				.getProperty("user.dir")));
+		File fichier = choixFichier.showOpenDialog(stage);
+		if (fichier != null)
+		{
+			vecFormes.clear();
+			fileCourant = fichier;
+
+			if (!lireFichierFormes(fileCourant, vecFormes))
+			{
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Erreur E/S");
+				alert.setHeaderText("");
+				alert.setContentText("Erreur lors de la lecture des données");
+				alert.showAndWait();
+			}
+		}
+		mettreAJourListe();
+	}
+	
+	public boolean lireFichierFormes(File pFichier, ArrayList<Forme> vecFormes)
+	{
+		boolean lectureOK = false;
+		BufferedReader tampon = null;
+		String ligne = "";
+		String separateur = ";";
+		try{
+			
+			tampon = new BufferedReader(new FileReader(pFichier));
+			while((ligne = tampon.readLine())!= null)
+			{
+				lectureOK=true;
+				String[] vect_forme = ligne.split(separateur);
+				
+				if(vect_forme[0].equals("Cercle"))
+				{
+					Cercle cercle = new Cercle(Integer.valueOf(vect_forme[1]), Integer.valueOf(vect_forme[2]), Double.valueOf(vect_forme[3]));
+					ajouterForme(cercle);
+				}
+				
+				else if (vect_forme[0].equals("Carre"))
+				{
+					Carre carre = new Carre(Integer.valueOf(vect_forme[1]), Integer.valueOf(vect_forme[2]), Double.valueOf(vect_forme[3]));
+					ajouterForme(carre);
+				}
+				
+				else if (vect_forme[0].equals("Rectangle"))
+				{
+					Rectangle rectangle = new Rectangle(Integer.valueOf(vect_forme[1]), Integer.valueOf(vect_forme[2]), Double.valueOf(vect_forme[3]), Double.valueOf(vect_forme[4]));
+					ajouterForme(rectangle);
+				}
+				
+				else if (vect_forme[0].equals("Losange"))
+				{
+					Losange losange = new Losange(Integer.valueOf(vect_forme[1]), Integer.valueOf(vect_forme[2]), Double.valueOf(vect_forme[3]), Double.valueOf(vect_forme[4]));
+					ajouterForme(losange);
+				}		
+			}
+			
+			}catch (FileNotFoundException e) {
+				
+			} catch (IOException e) {
+				
+			} finally {
+				if (tampon != null) {
+					try {
+						tampon.close();
+					} catch (IOException e) {
+					
+					}
+				}
+			}
+			return lectureOK;
+	}
+
+	
 	/**
 	 * Permet de gérer l'enregistrement d'une liste de formes dans le
 	 * fichier courant
@@ -403,20 +691,20 @@ public class GestionFormes extends Application
 						if (formeTemp instanceof Carre)
 						{
 							forme = "Carre" + ";" + formeTemp.getX() + ";" +
-									formeTemp.getY()  + ";" + ((Carre) formeTemp).getBase()+((Carre) formeTemp).getHauteur();
+									formeTemp.getY()  + ";" + ((Carre) formeTemp).getBase();
 						}
 						else
 							if (formeTemp instanceof Rectangle)
 							{
 								forme = "Rectangle" + ";" + formeTemp.getX() + ";" +
-										formeTemp.getY()  + ";" + ((Rectangle) formeTemp).getBase()+((Rectangle) formeTemp).getHauteur();
+										formeTemp.getY()  + ";" + ((Rectangle) formeTemp).getBase()+ ";" +((Rectangle) formeTemp).getHauteur();
 							}
 
 							else
 								if (formeTemp instanceof Losange)
 								{
 									forme = "Losange" + ";" + formeTemp.getX() + ";" +
-											formeTemp.getY()  + ";" + ((Losange) formeTemp).getBase()+((Losange) formeTemp).getHauteur();
+											formeTemp.getY()  + ";" + ((Losange) formeTemp).getBase()+ ";" +((Losange) formeTemp).getHauteur();
 								}
 
 					bufferForme.write(forme, 0, forme.length());
@@ -461,20 +749,26 @@ public class GestionFormes extends Application
 			alert.setContentText("Voulez-vous sauvegarder avant de fermer?");
 			
 			ButtonType buttonTypeSave = new ButtonType("Sauvegarder");
-			ButtonType buttonTypeCancel = new ButtonType("Fermer", ButtonData.CANCEL_CLOSE);
+			ButtonType buttonTypeCancel = new ButtonType("Fermer");
+			ButtonType buttonTypeAnnuler = new ButtonType("Annuler", ButtonData.CANCEL_CLOSE);
 
-			alert.getButtonTypes().setAll(buttonTypeSave, buttonTypeCancel);
+			alert.getButtonTypes().setAll(buttonTypeSave, buttonTypeCancel, buttonTypeAnnuler);
 			
 			Optional<ButtonType> result = alert.showAndWait();
 			
 			if (result.get() == buttonTypeSave)
 			{
 				gestionEnregistrerSous();
+				vecFormes.clear();
+				fileCourant = null;
 			} 
+			
+			else if (result.get() == buttonTypeCancel)
+			{
+				vecFormes.clear();
+				fileCourant = null;
+			}
 		}
-
-		vecFormes.clear();
-		fileCourant = null;
 	}
 
 	/**
@@ -482,10 +776,25 @@ public class GestionFormes extends Application
 	 */
 	public void gestionQuitter()
 	{
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Sauvegarde");
+		alert.setContentText("Voulez-vous sauvegarder avant de quitter?");
+		
+		ButtonType buttonTypeSave = new ButtonType("Sauvegarder et quitter");
+		ButtonType buttonTypeCancel = new ButtonType("Quitter sans sauvegarder", ButtonData.CANCEL_CLOSE);
+		
+		alert.getButtonTypes().setAll(buttonTypeSave, buttonTypeCancel);
+		
+		Optional<ButtonType> result = alert.showAndWait();
+		
+		if (result.get() == buttonTypeSave)
+		{
+			gestionEnregistrer();
+		} 	
 		System.exit(0);
 	}
 
-	public static void main(String[] args)
+	public static void  main(String[] args)
 	{
 		Application.launch(args);
 	}

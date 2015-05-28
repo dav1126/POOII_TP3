@@ -24,6 +24,7 @@ public class Interface
 	protected MenuItem menuItemEnregistrerSous = null;
 	protected MenuItem menuItemFermer = null;
 	protected MenuItem menuItemQuitter = null;
+	protected MenuItem menuItemOuvrir = null;
 	
 	//Éléments de droite (menu de création des formes)
 	private VBox zoneDroite = null;
@@ -54,13 +55,14 @@ public class Interface
 	
 	private void creerZoneHaut()
 	{
+		menuItemOuvrir = new MenuItem("Ouvrir");
 		menuItemEnregistrer = new MenuItem("Enregistrer");
 		menuItemEnregistrerSous = new MenuItem("Enregistrer sous");
 		menuItemFermer = new MenuItem("Fermer");
 		menuItemQuitter = new MenuItem("Quitter");
 		
 		menuFichier = new Menu("Fichier");
-		menuFichier.getItems().addAll(menuItemEnregistrer, menuItemEnregistrerSous, menuItemFermer, menuItemQuitter);
+		menuFichier.getItems().addAll(menuItemOuvrir, menuItemEnregistrer, menuItemEnregistrerSous, menuItemFermer, menuItemQuitter);
 		
 		mainMenu = new MenuBar();
 		mainMenu.getMenus().addAll(menuFichier);
@@ -99,7 +101,5 @@ public class Interface
 	private void creerZoneCentre()
 	{
 		listeObjets = new ListView<String>();
-		//ObservableList<String>valeurs = FXCollections.observableArrayList();
-		//zoneCentre.setItems(valeurs);
 	}
 }
